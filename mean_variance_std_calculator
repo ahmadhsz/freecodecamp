@@ -3,23 +3,15 @@ this function takes a list with 9 items, turn it to 2-D array and the calculates
 project url:
 https://replit.com/@AhmadHosein/boilerplate-mean-variance-standard-deviation-calculator#README.md
 """
-
-def calculate(list):
-    if len(list) < 9:
+# just improved my code
+def calculate(my_list):
+    if len(my_list) < 9:
       raise ValueError("List must contain nine numbers.")
     output = {}
-    matrix = []
-    while list != []:
-      matrix.append(list[:3])
-      list = list[3:]
-    matrix = np.array(matrix)
-    #matrix = np.matrix(matrix)
-    output['mean'] = [matrix.mean(0).tolist(), matrix.mean(1).tolist(), matrix.mean()]
-    output['variance'] =[ matrix.var(0).tolist(), matrix.var(1).tolist(), matrix.var()]
-    output['standard deviation'] = [matrix.std(0).tolist(), matrix.std(1).tolist(), matrix.std()]
-    output['max'] = [matrix.max(0).tolist(), matrix.max(1).tolist(), matrix.max()]
-    output['min'] = [matrix.min(0).tolist(), matrix.min(1).tolist(), matrix.min()]
-    output['sum'] = [matrix.sum(0).tolist(), matrix.sum(1).tolist(), matrix.sum()]
-  
-
+    matrix = np.array(my_list).reshape(3, 3)
+    for f in ('mean', 'var', 'std', 'max', 'min', 'sum'):
+        method = getattr(matrix, f)
+        output[f] = [method(0).tolist(), method(1).tolist(), method()]
+    output['variance'] = output.pop('var')
+    output['standard deviation'] = output.pop('std')
     return output
